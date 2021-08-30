@@ -11,6 +11,7 @@ import TabView from './tabView';
 import SuccessOutlinedIcon from '../../../utils/SuccessOutlined';
 import TabThemeProvider from './tabThemeConfig';
 import TabLabel from './tabLabel';
+import Message from '../../../components/Message';
 import {
   tabs, tooltipContent, tabContainers, tabIndex, externalLinkIcon,
 } from '../../../bento/dashboardTabData';
@@ -59,6 +60,58 @@ const tabController = (classes) => {
     && state.dashboardTab.filteredSampleIds ? state.dashboardTab.filteredSampleIds : null));
   const filteredFileIds = useSelector((state) => (state.dashboardTab
     && state.dashboardTab.filteredFileIds ? state.dashboardTab.filteredFileIds : null));
+
+  const [TopMessageStatus, setTopMessageStatus] = React.useState({
+    text: tooltipContent[currentTab],
+    src: tooltipContent.icon,
+    alt: tooltipContent.alt,
+    isActive: false,
+    currentTab,
+  });
+  const [BottomMessageStatus, setBottomMessageStatus] = React.useState({
+    text: tooltipContent[currentTab],
+    src: tooltipContent.icon,
+    alt: tooltipContent.alt,
+    isActive: false,
+    currentTab,
+  });
+
+  function setTooltip(status, tabInfo = '', icon, alt) {
+    return {
+      text: tabInfo,
+      src: icon,
+      alt,
+      isActive: status,
+      currentTab,
+    };
+  }
+
+  const tooltipConfig = {
+    location: {
+      top: {
+        open: () => setTopMessageStatus(setTooltip(true,
+          tooltipContent[currentTab],
+          tooltipContent.icon,
+          tooltipContent.alt)),
+        close: () => setTopMessageStatus(setTooltip(false, tooltipContent[currentTab],
+          tooltipContent.icon,
+          tooltipContent.alt)),
+      },
+      bottom: {
+        open: () => setBottomMessageStatus(setTooltip(true, tooltipContent[currentTab],
+          tooltipContent.icon,
+          tooltipContent.alt)),
+        close: () => setBottomMessageStatus(setTooltip(false, tooltipContent[currentTab],
+          tooltipContent.icon,
+          tooltipContent.alt)),
+      },
+    },
+
+  };
+
+  function toggleMessageStatus(location, status) {
+    return tooltipConfig.location[location][status]();
+  }
 
   const handleTabChange = (event, value) => {
     setCurrentTab(value);
@@ -191,6 +244,12 @@ const tabController = (classes) => {
     />
   ));
 
+  // Calculate the properate marginTop value for the tooltip on the top
+  function tooltipStyle(text) {
+    const marginTopValue = text.length > 40 ? '-25px' : '-3px';
+    return { marginTop: marginTopValue };
+  }
+
   // Tab table Generator
   const TABContainers = tabContainers.map((container) => (
     <TabContainer id={container.id}>
@@ -207,6 +266,9 @@ const tabController = (classes) => {
         saveButtonDefaultStyle={container.saveButtonDefaultStyle}
         ActiveSaveButtonDefaultStyle={container.ActiveSaveButtonDefaultStyle}
         DeactiveSaveButtonDefaultStyle={container.DeactiveSaveButtonDefaultStyle}
+        toggleMessageStatus={toggleMessageStatus}
+        BottomMessageStatus={BottomMessageStatus}
+        TopMessageStatus={TopMessageStatus}
         // eslint-disable-next-line jsx-a11y/tabindex-no-positive
         tabIndex={container.tabIndex}
         externalLinkIcon={externalLinkIcon}
@@ -228,9 +290,6 @@ const tabController = (classes) => {
         fetchAllFileIDs={fetchAllFileIDs}
         tableDownloadCSV={container.tableDownloadCSV || false}
         getFilesCount={getFilesCount}
-        tooltipMessage={tooltipContent[currentTab]}
-        tooltipIcon={tooltipContent.icon}
-        tooltipAlt={tooltipContent.alt}
       />
     </TabContainer>
   ));
@@ -257,6 +316,13 @@ const tabController = (classes) => {
           </div>
 )}
       />
+      { TopMessageStatus.isActive ? (
+        <div className={classes.classes.messageTop} style={tooltipStyle(TopMessageStatus.text)}>
+          {' '}
+          <Message data={TopMessageStatus.text} />
+          {' '}
+        </div>
+      ) : ' '}
       <TabThemeProvider tableBorder={getBorderStyle()} tablecolor={getTableColor()}>
         <Tabs
           classes

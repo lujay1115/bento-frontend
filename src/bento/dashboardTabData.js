@@ -50,30 +50,15 @@ export const tabContainers = [
     columns: [
       {
         dataField: 'subject_id',
-        header: 'Case ID',
+        header: 'Subject ID',
         sort: 'asc',
-        link: '/case/{subject_id}',
         primary: true,
         display: true,
       },
       {
         dataField: 'program',
-        header: 'Program Code',
+        header: 'Institution',
         sort: 'asc',
-        link: '/program/{program_id}',
-        display: true,
-      },
-      {
-        dataField: 'program_id',
-        header: 'Program ID',
-        sort: 'asc',
-        display: true,
-      },
-      {
-        dataField: 'study_acronym',
-        header: 'Arm',
-        sort: 'asc',
-        link: '/arm/{study_acronym}',
         display: true,
       },
       {
@@ -83,38 +68,50 @@ export const tabContainers = [
         display: true,
       },
       {
-        dataField: 'recurrence_score',
-        header: 'Recurrence Score',
-        sort: 'asc',
-        display: true,
-      },
-      {
-        dataField: 'tumor_size',
-        header: 'Tumor Size (cm)',
-        sort: 'asc',
-        display: true,
-      },
-      {
-        dataField: 'er_status',
-        header: 'ER Status',
-        sort: 'asc',
-        display: true,
-      },
-      {
-        dataField: 'pr_status',
-        header: 'PR Status',
+        dataField: 'tumor_grade',
+        header: 'Tumor Grade',
         sort: 'asc',
         display: true,
       },
       {
         dataField: 'age_at_index',
-        header: 'Age (years)',
+        header: 'Age Range',
+        sort: 'asc',
+        display: true,
+      },
+      {
+        dataField: 'menopause_status',
+        header: 'Gender',
+        sort: 'asc',
+        display: true,
+      },
+      {
+        dataField: 'tumor_size',
+        header: 'Neuor Exam Score',
+        sort: 'asc',
+        display: true,
+      },
+      {
+        dataField: 'endocrine_therapy',
+        header: 'On Therapy Radiation Type',
+        sort: 'asc',
+        display: true,
+      },
+      {
+        dataField: 'chemotherapy',
+        header: 'On Therapy Surgery Title',
+        sort: 'asc',
+        display: true,
+      },
+      {
+        dataField: 'recurrence_score',
+        header: 'Survival Event',
         sort: 'asc',
         display: true,
       },
       {
         dataField: 'survival_time',
-        header: 'Survival (days)',
+        header: 'Survival Time(month)',
         sort: 'asc',
         display: true,
       },
@@ -313,7 +310,7 @@ export const tabContainers = [
         downloadDocument: true, // To indicate that column is document donwload
         documentDownloadProps: {
           // Max file size needs to bin Bytes to seperate two support file preview and download
-          maxFileSize: 315,
+          maxFileSize: 500000,
           // Tool top text for file download
           toolTipTextFileDownload: 'Download a copy of this file',
           // Tool top text for file preview
@@ -321,7 +318,7 @@ export const tabContainers = [
           // datafield where file file column exists in the table
           fileSizeColumn: 'file_size',
           // datafield where file file id exists in the table which is used to get file location
-          fileLocationColumn: 'file_id',
+          fileLocationColumn: 'file_name',
           // file download icon
           iconFileDownload: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/bento/images/icons/svgs/DocumentDownloadPDF.svg',
           // file preview ico
@@ -333,7 +330,7 @@ export const tabContainers = [
         header: 'Program Code',
         sort: 'asc',
         link: '/program/{program_id}',
-        display: true,
+        display: false,
       },
       {
         dataField: 'program_id',
@@ -346,26 +343,25 @@ export const tabContainers = [
         header: 'Arm',
         sort: 'asc',
         link: '/arm/{arm}',
-        display: true,
+        display: false,
       },
       {
         dataField: 'subject_id',
-        header: 'Case ID',
+        header: 'Subject ID',
         sort: 'asc',
-        link: '/case/{subject_id}',
         display: true,
       },
       {
         dataField: 'sample_id',
         header: 'Sample ID',
         sort: 'asc',
-        display: true,
+        display: false,
       },
       {
         dataField: 'diagnosis',
         header: 'Diagnosis',
         sort: 'asc',
-        display: true,
+        display: false,
       },
     ],
     id: 'file_tab',
@@ -532,14 +528,9 @@ export const DASHBOARD_QUERY = gql`{
 
 export const FILTER_GROUP_QUERY = gql`
   query groupCounts($subject_ids: [String]){
-   armsByPrograms(subject_ids: $subject_ids) {
-     program
-     caseSize
-     children {
-         arm
-         caseSize
-         size
-     }
+subjectCountByProgram(subject_ids: $subject_ids) {
+  group
+  subjects
  }
  subjectCountByDiagnoses (subject_ids: $subject_ids){
   group
@@ -549,11 +540,7 @@ subjectCountByRecurrenceScore (subject_ids: $subject_ids){
   group
   subjects
 }
-subjectCountByTumorSize(subject_ids: $subject_ids) {
-  group
-  subjects
-}
-subjectCountByChemotherapyRegimen(subject_ids: $subject_ids) {
+subjectCountByTumorGrade(subject_ids: $subject_ids) {
   group
   subjects
 }
@@ -561,7 +548,10 @@ subjectCountByEndocrineTherapy (subject_ids: $subject_ids){
   group
   subjects
 }
-   
+subjectCountByChemotherapyRegimen(subject_ids: $subject_ids) {
+  group
+  subjects
+}  
 }
  `;
 

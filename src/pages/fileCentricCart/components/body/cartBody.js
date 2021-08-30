@@ -20,7 +20,6 @@ const CartHeader = ({
   fileIDs,
   defaultSortCoulmn,
   defaultSortDirection,
-  updateSortOrder,
 }) => {
   function onRowSelectionChange(curr, allRowsSelected) {
     return (curr, allRowsSelected);
@@ -28,6 +27,7 @@ const CartHeader = ({
 
   const columns = getColumns(table, classes).concat(deleteColumn);
   const options = getOptions(table, classes, getDefaultCustomFooter, onRowSelectionChange);
+
   return (
     <TableThemeProvider>
       <CustomDataTable
@@ -44,7 +44,6 @@ const CartHeader = ({
         defaultSortCoulmn={defaultSortCoulmn}
         defaultSortDirection={defaultSortDirection}
         tableDownloadCSV={table.tableDownloadCSV}
-        updateSortOrder={updateSortOrder}
       />
     </TableThemeProvider>
   );

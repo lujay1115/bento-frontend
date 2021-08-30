@@ -12,24 +12,23 @@ import {
 
 const styles = {
   listItemGutters: {
-    padding: '10px 0px 5px 0px',
+    padding: '10px 0px 10px 0px',
   },
   checkboxRoot: {
-    marginLeft: '3px',
+    marginLeft: '5px',
     height: 12,
   },
   panelDetailText: {
-    marginTop: '1.5px',
     color: '#000000',
-    lineHeight: '120%',
     fontFamily: 'Nunito',
     fontSize: '14px',
+    marginRight: '12px',
   },
   panelSubjectText: {
     color: '#000000',
     fontFamily: 'Nunito',
-    fontSize: '12px',
-    marginRight: '12px',
+    fontSize: '14px',
+    marginRight: '20px',
   },
 };
 const alignment = 'flex-start';
@@ -37,7 +36,7 @@ const alignment = 'flex-start';
 function CheckBoxView(props) {
   const {
     classes, checkboxItem, handleToggle, sideBarItem, facetSectionVariables,
-    defaultFacetSectionVariables, backgroundColor, checkColor, lineColor,
+    defaultFacetSectionVariables, backgroundColor, checkColor,
   } = props;
 
   return (
@@ -60,8 +59,9 @@ function CheckBoxView(props) {
           checkedIcon={(
             <CheckBoxIcon
               style={{
-                fontSize: 18,
-                color: checkColor,
+                fontSize: 16,
+                backgroundColor: checkColor,
+                color: '#FFFFFF',
               }}
             />
           )}
@@ -88,8 +88,10 @@ function CheckBoxView(props) {
         </div>
       </ListItem>
       <Divider
+        variant="middle"
         style={{
-          backgroundColor: checkboxItem.isChecked ? '#FFFFFF' : lineColor,
+          backgroundColor: checkboxItem.isChecked ? '#FFFFFF' : '#B1B1B1',
+          margin: checkboxItem.isChecked ? '0px' : '-1px',
           height: checkboxItem.isChecked ? '2px' : '1px',
         }}
       />

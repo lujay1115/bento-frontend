@@ -79,11 +79,11 @@ export const table = {
     },
     {
       dataField: 'subject_id',
-      header: 'Case ID',
+      header: 'Subject ID',
     },
     {
       dataField: 'study_code',
-      header: 'Study Code',
+      header: 'Subject Code',
     },
     {
       dataField: 'file_id',

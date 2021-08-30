@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  withStyles,
-} from '@material-ui/core';
-import { ToolTip } from 'bento-components';
-
+import Tooltip from '@material-ui/core/Tooltip';
 import env from '../../utils/env';
 import CustomIcon from '../CustomIcon/CustomIconView';
 
@@ -13,30 +9,24 @@ const fetchFileToDownload = (fileURL = '') => {
   fetch(`${FILE_SERVICE_API}${fileURL}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/pdf',
+      'Content-Type': 'text/plain',
     },
   })
-    .then((response) => response.text())
-    .then((filePath) => {
-      // Create blob link to download
-      const link = document.createElement('a');
-      link.href = filePath;
-      link.setAttribute(
-        'download',
-        'fileURL',
-      );
-
-      // Append to html link element page
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
+    .then((response) => response.blob())
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileURL;
+      document.body.appendChild(a);
+      a.click();
+      a.remove(); // afterwards we remove the element again
     });
 };
 
 const DocumentDownload = ({
-  classes,
   fileSize = 0,
-  maxFileSize = 2000,
+  maxFileSize = 500000,
   toolTipTextFileDownload = 'Download a copy of this file',
   toolTipTextFilePreview = 'Because of its size and/or format, this file is unavailable for download and must be accessed via the My Files workflow',
   iconFileDownload = '',
@@ -45,31 +35,19 @@ const DocumentDownload = ({
 }) => (
   <>
     { fileSize < maxFileSize ? (
-      <ToolTip classes={{ tooltip: classes.customTooltip, arrow: classes.customArrow }} title={toolTipTextFileDownload} arrow placement="bottom">
+      <Tooltip title={toolTipTextFileDownload}>
         <div onClick={() => fetchFileToDownload(fileLocation)}>
 
           <CustomIcon imgSrc={iconFileDownload} />
         </div>
-      </ToolTip>
+      </Tooltip>
     ) : (
-      <ToolTip classes={{ tooltip: classes.customTooltip, arrow: classes.customArrow }} title={toolTipTextFilePreview} arrow placement="bottom">
+      <Tooltip title={toolTipTextFilePreview}>
         <span>
           <CustomIcon imgSrc={iconFilePreview} />
         </span>
-      </ToolTip>
+      </Tooltip>
     )}
   </>
 );
-
-const styles = () => ({
-  customTooltip: {
-    border: '#03A383 1px solid',
-  },
-  customArrow: {
-    '&::before': {
-      border: '#03A383 1px solid',
-    },
-  },
-});
-
-export default withStyles(styles)(DocumentDownload);
+export default DocumentDownload;

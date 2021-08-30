@@ -13,7 +13,6 @@ const styles = () => ({
     height: '1em',
     display: 'inline-block',
     flexShrink: 0,
-    cursor: 'pointer',
   },
 });
 

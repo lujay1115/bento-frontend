@@ -25,17 +25,10 @@ import {
   resetGroupSelections,
 } from '../../../pages/dashboardTab/store/dashboardReducer';
 import {
-  facetSectionVariables,
-  defaultFacetSectionVariables,
-  sortLabels, showCheckboxCount,
-  resetIconFilter,
+  facetSectionVariables, defaultFacetSectionVariables, sortLabels, showCheckboxCount, resetIcon,
 } from '../../../bento/dashboardData';
 import CheckBoxView from './CheckBoxView';
 
-const size = '10px';
-if (resetIconFilter.src === '') {
-  resetIconFilter.src = 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/bento/images/icons/svgs/Clear-icon.svg';
-}
 const CustomExpansionPanelSummary = withStyles({
   root: {
     marginBottom: -1,
@@ -102,12 +95,6 @@ const FacetPanel = ({ classes }) => {
       },
     );
     return groupNameColor;
-  }
-  function getLineColor(index, length) {
-    if (index === length - 1) {
-      return '#FFFFFF';
-    }
-    return '#B1B1B1';
   }
   React.useEffect(() => {
     if (!groupsExpanded || !(groupsExpanded === `${sideBarContent.defaultPanel}false` || groupsExpanded !== false)) {
@@ -274,7 +261,7 @@ const FacetPanel = ({ classes }) => {
                         expandIcon={(
                           <ArrowDropDownIcon
                             classes={{ root: classes.dropDownIconSubSection }}
-                            style={{ fontSize: 26 }}
+                            style={{ fontSize: 36 }}
                           />
 )}
                         aria-controls={sideBarItem.groupName}
@@ -306,13 +293,13 @@ const FacetPanel = ({ classes }) => {
                                 onClick={handleGroupReset(
                                   sideBarItem.datafield, sideBarItem.groupName,
                                 )}
-                                style={{ fontSize: 15 }}
+                                style={{ fontSize: 10 }}
                               >
                                 <img
-                                  src={resetIconFilter.src}
-                                  height={size}
-                                  width={size}
-                                  alt={resetIconFilter.alt}
+                                  src={resetIcon.src}
+                                  height={resetIcon.size}
+                                  width={resetIcon.size}
+                                  alt={resetIcon.alt}
                                 />
                               </Icon>
                             </span>
@@ -348,7 +335,6 @@ const FacetPanel = ({ classes }) => {
                                   defaultFacetSectionVariables={defaultFacetSectionVariables}
                                   backgroundColor={getCheckBoxColor(index, currentSection)}
                                   checkColor={getGroupNameColor(sideBarItem, currentSection)}
-                                  lineColor={getLineColor(index, sideBarItem.checkboxItems.length)}
                                 />
                               ),
                             )
@@ -377,6 +363,9 @@ const FacetPanel = ({ classes }) => {
 const styles = () => ({
   expansionPanelRoot: {
     boxShadow: 'none',
+    borderLeft: '1px solid #B1B1B1',
+    borderRight: '1px solid #B1B1B1',
+    borderBottom: '1px solid #B1B1B1',
     margin: 'auto',
     position: 'initial',
     '&:before': {
@@ -385,7 +374,7 @@ const styles = () => ({
   },
   expansionPanelsideBarItem: {
     boxShadow: 'none',
-    borderTop: 'thin solid #B1B1B1',
+    borderTop: '1px solid #B1B1B1',
     '&:last-child': {
       borderBottom: '1px solid #B1B1B1',
     },
@@ -411,16 +400,16 @@ const styles = () => ({
   sectionSummaryText: {
     marginLeft: '-6px',
     color: '#000000',
-    fontFamily: 'Open Sans',
-    fontWeight: '300',
+    fontFamily: 'Lato',
+    fontWeight: 'thin',
     fontSize: '20px',
     lineHeight: '26px',
     letterSpacing: 0,
   },
   subSectionSummaryText: {
-    marginLeft: '10px',
+    marginLeft: '5px',
     color: '#000000',
-    fontFamily: 'Open Sans',
+    fontFamily: 'Lato',
     fontWeight: '600',
     fontSize: '14px',
     textTransform: 'uppercase',
@@ -430,7 +419,7 @@ const styles = () => ({
   },
   customExpansionPanelSummaryRoot: {
     flexDirection: 'row-reverse',
-    paddingLeft: 4,
+    paddingLeft: 0,
   },
   sortGroup: {
     borderTop: '1px solid #B1B1B1',
@@ -440,7 +429,7 @@ const styles = () => ({
     cursor: 'pointer',
     fontFamily: 'Nunito',
     fontSize: '10px',
-    marginRight: '42px',
+    marginRight: '32px',
   },
   sortGroupItemCounts: {
     cursor: 'pointer',
@@ -449,6 +438,8 @@ const styles = () => ({
   },
   sortGroupIcon: {
     cursor: 'pointer',
+    fontFamily: 'Nunito',
+    fontSize: '10px',
     marginRight: '12px',
     marginLeft: '16px',
   },

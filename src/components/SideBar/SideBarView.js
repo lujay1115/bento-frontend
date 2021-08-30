@@ -8,9 +8,6 @@ import { facetSearchData, resetIcon } from '../../bento/dashboardData';
 import { clearAllFilters } from '../../pages/dashboardTab/store/dashboardReducer';
 
 const drawerWidth = 240;
-if (resetIcon.src === '') {
-  resetIcon.src = 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/bento/images/icons/svgs/Clear-icon.svg';
-}
 
 const SideBarContent = ({ classes }) => {
   const activeFilters = useSelector((state) => (
@@ -83,12 +80,11 @@ const styles = (theme) => ({
     zIndex: '90',
     position: 'relative',
     float: 'left',
-    overflowX: 'hidden',
     overflowY: 'auto',
     border: 'none',
   },
   floatRight: {
-    margin: '7px 0px 7px 6px',
+    margin: '7px 0px 7px 4px',
   },
   floatLeft: {
     float: 'left',
@@ -109,12 +105,10 @@ const styles = (theme) => ({
     margin: 'auto',
   },
   customButton: {
-    borderRadius: '5px',
-    maxWidth: '30px',
-    maxHeight: '30px',
-    minWidth: '30px',
-    minHeight: '30px',
+    borderRadius: '12px',
     marginTop: '0px',
+    minHeight: '30px',
+    minWidth: '40px',
     fontSize: 9,
     textTransform: 'none',
     color: '#3d4241',
@@ -134,11 +128,9 @@ const styles = (theme) => ({
   listRoot: {
     paddingTop: 0,
     paddingBottom: 1,
-    maxHeight: '1300px',
-    maxWidth: '100%',
+    height: '1300px',
     overflowX: 'hidden',
     overflowY: 'overlay',
-    borderBottom: 'thin solid #B1B1B1',
   },
   dividerRoot: {
     backgroundColor: '#B0CFE1',

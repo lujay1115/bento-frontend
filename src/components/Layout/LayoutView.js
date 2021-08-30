@@ -86,12 +86,12 @@ const styles = (theme) => ({
   },
   '@global': {
     '*::-webkit-scrollbar': {
-      width: '0.5em',
-      height: '0.4em',
+      width: '0.7em',
+      height: '0.6em',
     },
     '*::-webkit-scrollbar-track': {
       '-webkit-box-shadow': 'inset 0 0 6px #ccc',
-      borderRadius: '0px',
+      borderRadius: '10px',
       backgroundColor: '#FFFFFF',
     },
     '*::-webkit-scrollbar-thumb': {

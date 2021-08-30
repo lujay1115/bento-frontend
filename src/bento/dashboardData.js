@@ -4,43 +4,43 @@ import gql from 'graphql-tag';
 // A maximum of 12 facetSearchData are allowed
 export const facetSearchData = [
   {
-    label: 'Program', field: 'group', api: 'subjectCountByProgram', apiForFiltering: 'filterSubjectCountByProgram', datafield: 'programs', section: 'Filter By Cases', show: true,
+    label: 'Institution', field: 'group', api: 'subjectCountByProgram', apiForFiltering: 'filterSubjectCountByProgram', datafield: 'programs', section: 'Filter By Cases', show: true,
   },
   {
-    label: 'Arm', field: 'group', api: 'subjectCountByStudy', apiForFiltering: 'filterSubjectCountByStudy', datafield: 'studies', section: 'Filter By Cases', show: true,
+    label: 'Gender', field: 'group', api: 'subjectCountByMenopauseStatus', apiForFiltering: 'filterSubjectCountByMenopauseStatus', datafield: 'meno_status', section: 'Filter By Cases', show: true,
   },
   {
     label: 'Diagnosis', field: 'group', api: 'subjectCountByDiagnoses', apiForFiltering: 'filterSubjectCountByDiagnoses', datafield: 'diagnoses', section: 'Filter By Cases', show: true,
   },
   {
-    label: 'Recurrence Score', field: 'group', api: 'subjectCountByRecurrenceScore', apiForFiltering: 'filterSubjectCountByRecurrenceScore', datafield: 'rc_scores', section: 'Filter By Cases', show: true, customNumberSort: true,
+    label: 'Survival Event', field: 'group', api: 'subjectCountByRecurrenceScore', apiForFiltering: 'filterSubjectCountByRecurrenceScore', datafield: 'rc_scores', section: 'Filter By Cases', show: true,
   },
   {
-    label: 'Tumor Size', field: 'group', api: 'subjectCountByTumorSize', apiForFiltering: 'filterSubjectCountByTumorSize', datafield: 'tumor_sizes', section: 'Filter By Cases', show: true, customNumberSort: true,
+    label: 'Neuor Exam Score', field: 'group', api: 'subjectCountByTumorSize', apiForFiltering: 'filterSubjectCountByTumorSize', datafield: 'tumor_sizes', section: 'Filter By Cases', show: true,
   },
   {
-    label: 'Chemotherapy', field: 'group', api: 'subjectCountByChemotherapyRegimen', apiForFiltering: 'filterSubjectCountByChemotherapyRegimen', datafield: 'chemo_regimen', section: 'Filter By Cases', show: true,
+    label: 'On Therapy Radiation Type', field: 'group', api: 'subjectCountByChemotherapyRegimen', apiForFiltering: 'filterSubjectCountByChemotherapyRegimen', datafield: 'chemo_regimen', section: 'Filter By Cases', show: true,
   },
   {
     label: 'Tumor Grade', field: 'group', api: 'subjectCountByTumorGrade', apiForFiltering: 'filterSubjectCountByTumorGrade', datafield: 'tumor_grades', section: 'Filter By Cases', show: true,
   },
   {
-    label: 'ER Status', field: 'group', api: 'subjectCountByErStatus', apiForFiltering: 'filterSubjectCountByErStatus', datafield: 'er_status', section: 'Filter By Cases', show: true,
+    label: 'ER Status', field: 'group', api: 'subjectCountByErStatus', apiForFiltering: 'filterSubjectCountByErStatus', datafield: 'er_status', section: 'Filter By Cases', show: false,
   },
   {
-    label: 'PR Status', field: 'group', api: 'subjectCountByPrStatus', apiForFiltering: 'filterSubjectCountByPrStatus', datafield: 'pr_status', section: 'Filter By Cases', show: true,
+    label: 'PR Status', field: 'group', api: 'subjectCountByPrStatus', apiForFiltering: 'filterSubjectCountByPrStatus', datafield: 'pr_status', section: 'Filter By Cases', show: false,
   },
   {
-    label: 'Endocrine Therapy', field: 'group', api: 'subjectCountByEndocrineTherapy', apiForFiltering: 'filterSubjectCountByEndocrineTherapy', datafield: 'endo_therapies', section: 'Filter By Cases', show: true,
+    label: 'On Therapy Radiation Type', field: 'group', api: 'subjectCountByChemotherapyRegimen', apiForFiltering: 'filterSubjectCountByEndocrineTherapy', datafield: 'endo_therapies', section: 'Filter By Cases', show: false,
   },
   {
-    label: 'Menopause Status', field: 'group', api: 'subjectCountByMenopauseStatus', apiForFiltering: 'filterSubjectCountByMenopauseStatus', datafield: 'meno_status', section: 'Filter By Cases', show: true,
+    label: 'Gender', field: 'group', api: 'subjectCountByMenopauseStatus', apiForFiltering: 'filterSubjectCountByMenopauseStatus', datafield: 'meno_status', section: 'Filter By Cases', show: false,
   },
   {
-    label: 'Tissue Type', field: 'group', api: 'subjectCountByTissueType', apiForFiltering: 'filterSubjectCountByTissueType', datafield: 'tissue_type', section: 'Filter By Samples', show: true,
+    label: 'Tissue Type', field: 'group', api: 'subjectCountByTissueType', apiForFiltering: 'filterSubjectCountByTissueType', datafield: 'tissue_type', section: 'Filter By Samples', show: false,
   },
   {
-    label: 'Tissue Composition', field: 'group', api: 'subjectCountByTissueComposition', apiForFiltering: 'filterSubjectCountByTissueComposition', datafield: 'composition', section: 'Filter By Samples', show: true,
+    label: 'Tissue Composition', field: 'group', api: 'subjectCountByTissueComposition', apiForFiltering: 'filterSubjectCountByTissueComposition', datafield: 'composition', section: 'Filter By Samples', show: false,
   },
   {
     label: 'File Association', field: 'group', api: 'subjectCountByFileAssociation', apiForFiltering: 'filterSubjectCountByFileAssociation', datafield: 'association', section: 'Filter By Files', show: true,
@@ -88,12 +88,10 @@ export const defaultFacetSectionVariables = {
 // A maximum of 6 widgets are allowed
 export const widgetsData = [
   {
-    type: 'sunburst',
-    label: 'Programs and Arms',
-    dataName: 'armsByPrograms',
-    datatable_level1_field: 'program',
-    datatable_level2_field: 'study_acronym',
-    titleText: 'Cases',
+    type: 'donut',
+    label: 'Institution',
+    dataName: 'subjectCountByProgram',
+    datatable_field: 'program',
     show: true,
   },
   {
@@ -101,39 +99,34 @@ export const widgetsData = [
     label: 'Diagnosis',
     dataName: 'subjectCountByDiagnoses',
     datatable_field: 'diagnosis',
-    titleText: 'Cases',
     show: true,
   },
   {
     type: 'donut',
-    label: 'Recurrence Score',
+    label: 'Tumor Grade',
+    dataName: 'subjectCountByTumorGrade',
+    datatable_field: 'tumor_grade',
+    show: true,
+  },
+  {
+    type: 'donut',
+    label: 'Survival Event',
     dataName: 'subjectCountByRecurrenceScore',
     datatable_field: 'recurrence_score',
-    titleText: 'Cases',
     show: true,
   },
   {
     type: 'donut',
-    label: 'Tumor Size',
-    dataName: 'subjectCountByTumorSize',
-    datatable_field: 'tumor_size',
-    titleText: 'Cases',
-    show: true,
-  },
-  {
-    type: 'donut',
-    label: 'Chemotherapy',
+    label: 'On therapy radiation type',
     dataName: 'subjectCountByChemotherapyRegimen',
     datatable_field: 'chemotherapy',
-    titleText: 'Cases',
     show: true,
   },
   {
     type: 'donut',
-    label: 'Endocrine Therapy',
+    label: 'On therapy surgery title',
     dataName: 'subjectCountByEndocrineTherapy',
     datatable_field: 'endocrine_therapy',
-    titleText: 'Cases',
     show: true,
   },
 ];
@@ -152,11 +145,6 @@ export const resetIcon = {
   alt: 'Reset icon',
   size: '12 px',
 };
-export const resetIconFilter = {
-  src: 'https://raw.githubusercontent.com/CBIIT/datacommons-assets/main/bento/images/icons/svgs/Clear-icon.svg',
-  alt: 'Reset icon',
-  size: '12 px',
-};
 
 // --------------- Dashboard Table configuration --------------
 export const dashboardTable = {
@@ -165,30 +153,15 @@ export const dashboardTable = {
     // A maximum of 10 columns (tableData) are allowed
     {
       dataField: 'subject_id',
-      header: 'Case ID',
+      header: 'Subject ID',
       sort: 'asc',
-      link: '/case/{subject_id}',
       primary: true,
       display: true,
     },
     {
       dataField: 'program',
-      header: 'Program Code',
+      header: 'Institution',
       sort: 'asc',
-      link: '/program/{program_id}',
-      display: true,
-    },
-    {
-      dataField: 'program_id',
-      header: 'Program ID',
-      sort: 'asc',
-      display: false,
-    },
-    {
-      dataField: 'study_acronym',
-      header: 'Arm',
-      sort: 'asc',
-      link: '/arm/{study_acronym}',
       display: true,
     },
     {
@@ -198,38 +171,50 @@ export const dashboardTable = {
       display: true,
     },
     {
-      dataField: 'recurrence_score',
-      header: 'Recurrence Score',
-      sort: 'asc',
-      display: true,
-    },
-    {
-      dataField: 'tumor_size',
-      header: 'Tumor Size (cm)',
-      sort: 'asc',
-      display: true,
-    },
-    {
-      dataField: 'er_status',
-      header: 'ER Status',
-      sort: 'asc',
-      display: true,
-    },
-    {
-      dataField: 'pr_status',
-      header: 'PR Status',
+      dataField: 'tumor_grade',
+      header: 'Tumor Grade',
       sort: 'asc',
       display: true,
     },
     {
       dataField: 'age_at_index',
-      header: 'Age (years)',
+      header: 'Age Range',
+      sort: 'asc',
+      display: true,
+    },
+    {
+      dataField: 'menopause_status',
+      header: 'Gender',
+      sort: 'asc',
+      display: true,
+    },
+    {
+      dataField: 'tumor_size',
+      header: 'Neuor Exam Score',
+      sort: 'asc',
+      display: true,
+    },
+    {
+      dataField: 'endocrine_therapy',
+      header: 'On Therapy Radiation Type',
+      sort: 'asc',
+      display: true,
+    },
+    {
+      dataField: 'chemotherapy',
+      header: 'On Therapy Surgery Title',
+      sort: 'asc',
+      display: true,
+    },
+    {
+      dataField: 'recurrence_score',
+      header: 'Survival Event',
       sort: 'asc',
       display: true,
     },
     {
       dataField: 'survival_time',
-      header: 'Survival (days)',
+      header: 'Survival Time(month)',
       sort: 'asc',
       display: true,
     },

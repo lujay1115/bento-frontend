@@ -17,7 +17,7 @@ class ServerPaginatedTableView extends React.Component {
     sortOrder: {},
     data: 'undefined',
     isLoading: false,
-    // Init an array updatedColumns - helps in tracking onViewColumnsChange
+    // Helps in tracking onViewColumnsChange
     updatedColumns: [],
   };
 
@@ -50,14 +50,9 @@ class ServerPaginatedTableView extends React.Component {
 
   sort = (page, sortOrder) => {
     this.setState({ isLoading: true });
-    if (this.props.updateSortOrder) {
-      const sortDirection = sortOrder.direction;
-      const sortColumn = sortOrder.name;
-      this.props.updateSortOrder({ sortColumn, sortDirection });
-    }
     this.fetchData(page * this.state.rowsPerPage, this.state.rowsPerPage, sortOrder).then((res) => {
       this.rowsSelectedTrigger(res);
-      // call setUpdatedColumnsDisplay to update columns display true/false after changePage
+      // update columns display true/false depending on onViewColumnsChange
       if (this.props.options.viewColumns && this.state.updatedColumns.length) {
         this.setUpdatedColumnsDisplay(this.state.updatedColumns);
       }
@@ -95,11 +90,6 @@ class ServerPaginatedTableView extends React.Component {
       if (srcData !== 'undefined' && srcData.length !== this.state.rowsPerPage && this.props.count > this.state.rowsPerPage) {
         this.changePage(0, {});
       } else {
-        if (this.props.count < this.state.rowsPerPage) {
-          this.setState({
-            rowsPerPage: 10,
-          });
-        }
         const data = srcData;
         setTimeout(() => {
           resolve({
@@ -109,13 +99,11 @@ class ServerPaginatedTableView extends React.Component {
       }
     })
 
-    // set this.props.columns display true/false depending on updatedColumns from
-    // onViewColumnsChange
+    // update columns display true/false depending on onViewColumnsChange
     setUpdatedColumnsDisplay = (stateUpdatedColumns) => {
       stateUpdatedColumns.map((updatedColumns) => {
-        const index = this.props.columns.map((e) => e.name)
-          .indexOf(updatedColumns.label);
-        if (updatedColumns.status === 'remove') {
+        const index = this.props.columns.map((e) => e.name).indexOf(updatedColumns);
+        if (this.props.columns[index].options.display === true) {
           this.props.columns[index].options.display = false;
         } else {
           this.props.columns[index].options.display = true;
@@ -134,7 +122,7 @@ class ServerPaginatedTableView extends React.Component {
       this.state.sortOrder,
     ).then((res) => {
       this.rowsSelectedTrigger(res);
-      // call setUpdatedColumnsDisplay to update columns display true/false after changePage
+      // update columns display true/false depending on onViewColumnsChange
       if (this.props.options.viewColumns && this.state.updatedColumns.length) {
         this.setUpdatedColumnsDisplay(this.state.updatedColumns);
       }
@@ -248,23 +236,13 @@ class ServerPaginatedTableView extends React.Component {
             break;
         }
       },
-      onViewColumnsChange: (changedColumn, action) => {
-        // Track user interaction with ViewColumns and build an array updatedColumns
-        // updatedColumns shall Save label, status for every interaction
-        const index = this.state.updatedColumns.findIndex((x) => x.label === changedColumn);
-        if (index === -1) {
-          this.state.updatedColumns.push({
-            label: changedColumn,
-            status: action,
-          });
-        } else if (changedColumn[index].status !== action) {
-          this.state.updatedColumns.splice(index, 1);
-          this.state.updatedColumns.push({
-            label: changedColumn,
-            status: action,
-          });
+      onViewColumnsChange: (changedColumn) => {
+        // Keep a track of user selectios and unselections
+        if (this.state.updatedColumns.indexOf(changedColumn) === -1) {
+          this.state.updatedColumns.push(changedColumn);
+        } else {
+          this.state.updatedColumns.pop(changedColumn);
         }
-        return '';
       },
     };
     return (
